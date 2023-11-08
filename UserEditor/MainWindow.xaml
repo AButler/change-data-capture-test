@@ -60,10 +60,7 @@
         <Grid Background="{DynamicResource AppBackgroundBrush}"
               IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBooleanConverter}}"
               Grid.Row="1">
-
-            <Grid Margin="12" Background="{DynamicResource AppContentBackgroundBrush}">
-                <views:UserList />
-            </Grid>
+            <views:UserList Margin="12" />
         </Grid>
     </Grid>
 </Window>

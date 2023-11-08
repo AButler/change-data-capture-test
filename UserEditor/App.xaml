@@ -12,7 +12,12 @@
                 <ui:XamlControlsResources />
             </ResourceDictionary.MergedDictionaries>
             
-            <SolidColorBrush x:Key="AppBackgroundBrush" Color="#FFF1F1F1" />
+            <Color x:Key="RegionColor">#FFFFFFFF</Color>
+            <SolidColorBrush x:Key="RegionBrush" Color="{StaticResource RegionColor}" />
+            
+            <Color x:Key="AppBackgroundColor">#FFF1F1F1</Color>
+            <SolidColorBrush x:Key="AppBackgroundBrush" Color="{StaticResource AppBackgroundColor}" />
+            
             <SolidColorBrush x:Key="AppContentBackgroundBrush" Color="{StaticResource SystemAltHighColor}" />
             
             <converters:InvertBooleanConverter x:Key="InvertBooleanConverter" />
