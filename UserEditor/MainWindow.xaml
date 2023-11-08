@@ -18,7 +18,8 @@
             <ListView ItemsSource="{Binding Users}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="User ID" DisplayMemberBinding="{Binding Id}" />
+                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" />
+                        <GridViewColumn Header="User ID" DisplayMemberBinding="{Binding UserId}" />
                         <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding FirstName}" />
                         <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding LastName}" />
                         <GridViewColumn Header="Display Name" DisplayMemberBinding="{Binding DisplayName}" />

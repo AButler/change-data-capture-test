@@ -1,7 +1,8 @@
 ﻿namespace UserEditor.Models;
 
 public record UserModel(
-    string Id,
+    int Id,
+    string UserId,
     string FirstName,
     string LastName,
     string DisplayName,
