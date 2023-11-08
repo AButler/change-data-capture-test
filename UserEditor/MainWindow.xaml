@@ -4,29 +4,66 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UserEditor"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        xmlns:converters="clr-namespace:UserEditor.Converters"
+        xmlns:views="clr-namespace:UserEditor.Views"
+        x:Name="Window"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        ui:TitleBar.ExtendViewIntoTitleBar="True"
         mc:Ignorable="d"
         Loaded="OnLoaded"
-        Title="User Editor" 
-        Height="450" Width="800">
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Header="E_xit" Command="{Binding ExitCommand}" />
-            </MenuItem>
-        </Menu>
-        <Grid Margin="5" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBooleanConverter}}">
-            <ListView ItemsSource="{Binding Users}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn Header="User ID" DisplayMemberBinding="{Binding UserId}" />
-                        <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding FirstName}" />
-                        <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding LastName}" />
-                        <GridViewColumn Header="Display Name" DisplayMemberBinding="{Binding DisplayName}" />
-                        <GridViewColumn Header="Email" DisplayMemberBinding="{Binding EmailAddress}" />
-                    </GridView>
-                </ListView.View>
-            </ListView>
+        Title="User Editor"
+        Height="450" Width="800"
+        MinHeight="400" MinWidth="500">
+    <Window.Resources>
+        <converters:PixelsToGridLengthConverter x:Key="PixelsToGridLength" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- App Title Bar -->
+        <Grid Background="{DynamicResource SystemControlBackgroundAccentBrush}"
+              Height="{Binding ElementName=Window, Path=(ui:TitleBar.Height)}"
+              ui:ThemeManager.RequestedTheme="Dark">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    Width="{Binding ElementName=Window, Path=(ui:TitleBar.SystemOverlayLeftInset), Converter={StaticResource PixelsToGridLength}}" />
+                <ColumnDefinition />
+                <ColumnDefinition
+                    Width="{Binding ElementName=Window, Path=(ui:TitleBar.SystemOverlayRightInset), Converter={StaticResource PixelsToGridLength}}" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="TextElement.Foreground"
+                            Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsActive, ElementName=Window}" Value="False">
+                            <Setter Property="TextElement.Foreground"
+                                    Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+
+            <TextBlock
+                Grid.Column="1"
+                FontSize="13"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="{Binding ElementName=Window, Path=Title}" />
         </Grid>
-    </DockPanel>
+
+        <Grid Background="{DynamicResource AppBackgroundBrush}"
+              IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBooleanConverter}}"
+              Grid.Row="1">
+
+            <Grid Margin="12" Background="{DynamicResource AppContentBackgroundBrush}">
+                <views:UserList />
+            </Grid>
+        </Grid>
+    </Grid>
 </Window>
