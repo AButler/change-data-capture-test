@@ -43,11 +43,15 @@ public partial class App
 
         services.AddSingleton<UserRepository>();
         services.AddSingleton<UserTypeRepository>();
+        services.AddSingleton<SystemsRepository>();
+        services.AddSingleton<SystemAccessRepository>();
 
         services.AddTransient<MainWindowViewModel>();
         services.AddTransient<AddEditUserViewModel>();
+        services.AddTransient<EditSystemAccessViewModel>();
 
         services.AddTransient<MainWindow>();
         services.AddTransient<AddEditUserDialog>();
+        services.AddTransient<EditSystemAccessDialog>();
     }
 }

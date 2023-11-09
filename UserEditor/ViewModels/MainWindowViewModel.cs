@@ -26,6 +26,7 @@ public partial class MainWindowViewModel : ObservableObject
     public ICommand AddUserCommand { get; }
     public ICommand EditUserCommand { get; }
     public ICommand ToggleEnableUserCommand { get; }
+    public ICommand EditSystemAccessCommand { get; }
     public ICommand ExitCommand { get; }
 
     public MainWindowViewModel(UserRepository userRepository)
@@ -37,6 +38,10 @@ public partial class MainWindowViewModel : ObservableObject
         EditUserCommand = new AsyncRelayCommand<UserModel?>(EditUser, u => u != null);
         ToggleEnableUserCommand = new AsyncRelayCommand<UserModel?>(
             ToggleEnableUser,
+            u => u != null
+        );
+        EditSystemAccessCommand = new AsyncRelayCommand<UserModel?>(
+            EditSystemAccess,
             u => u != null
         );
         ExitCommand = new RelayCommand(Exit);
@@ -99,6 +104,22 @@ public partial class MainWindowViewModel : ObservableObject
         }
 
         RefreshCommand.Execute(null);
+    }
+
+    private async Task EditSystemAccess(UserModel? user)
+    {
+        if (user == null)
+        {
+            return;
+        }
+
+        var dialog = EditSystemAccessDialog.CreateDialog(user.Id);
+        var result = await dialog.ShowAsync();
+
+        if (result == ContentDialogResult.Primary)
+        {
+            //TODO: update access
+        }
     }
 
     private void Exit()

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
+using UserEditor.ViewModels;
 
 namespace UserEditor.Dialogs;
 
@@ -17,15 +18,15 @@ public partial class AddEditUserDialog
         return dialog;
     }
 
-    public AddEditUserDialog(ViewModels.AddEditUserViewModel viewModel)
+    public AddEditUserDialog(AddEditUserViewModel viewModel)
     {
         ViewModel = viewModel;
         InitializeComponent();
     }
 
-    public ViewModels.AddEditUserViewModel ViewModel
+    public AddEditUserViewModel ViewModel
     {
-        get => (ViewModels.AddEditUserViewModel)DataContext;
+        get => (AddEditUserViewModel)DataContext;
         private set => DataContext = value;
     }
 

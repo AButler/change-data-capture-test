@@ -74,3 +74,10 @@ VALUES (
 (
   'bobetta.bobertson', 'Bobetta', 'Bobertson', 'Bobetta Bobertson', 'bobetta.bobertson@sample.com', (SELECT TOP 1 Id FROM [dbo].[UserTypes] ut WHERE ut.[Code] = 'S01')
 )
+
+INSERT INTO Systems([Name])
+VALUES ( 'Admin Site' ),
+( 'Microsoft 365' ),
+( 'Google Analytics' ),
+( 'Microsoft Azure Portal' ),
+( 'HR System' )

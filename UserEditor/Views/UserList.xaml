@@ -24,6 +24,13 @@
                 <ui:AppBarSeparator />
                 <ui:AppBarButton Label="Enable / Disable" Command="{Binding ToggleEnableUserCommand}"
                                  CommandParameter="{Binding SelectedItem, ElementName=UsersList}" />
+                <ui:AppBarSeparator />
+                <ui:AppBarButton Label="Access Control" Command="{Binding EditSystemAccessCommand}"
+                                 CommandParameter="{Binding SelectedItem, ElementName=UsersList}">
+                    <ui:AppBarButton.Icon>
+                        <ui:FontIcon Glyph="&#xEA18;"></ui:FontIcon>
+                    </ui:AppBarButton.Icon>
+                </ui:AppBarButton>
             </ui:CommandBar>
         </Border>
 
