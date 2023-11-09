@@ -35,7 +35,8 @@ CREATE TABLE [dbo].[Users](
   [LastName] [nvarchar](100) NOT NULL,
   [DisplayName] [nvarchar](200) NOT NULL,
   [EmailAddress] [nvarchar](100) NOT NULL,
-  [UserTypeId] int NOT NULL FOREIGN KEY REFERENCES UserTypes(Id)
+  [UserTypeId] int NOT NULL FOREIGN KEY REFERENCES UserTypes(Id),
+  [IsDisabled] bit NOT NULL DEFAULT 0
 )
 GO
 

@@ -21,6 +21,6 @@ public partial class MainWindow
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        ViewModel.LoadCommand.Execute(null);
+        ViewModel.RefreshCommand.Execute(null);
     }
 }

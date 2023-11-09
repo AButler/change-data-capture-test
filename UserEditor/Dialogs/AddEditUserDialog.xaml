@@ -1,0 +1,33 @@
+﻿<ui:ContentDialog x:Class="UserEditor.Dialogs.AddEditUserDialog"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:local="clr-namespace:UserEditor.Dialogs"
+                  xmlns:ui="http://schemas.modernwpf.com/2019"
+                  mc:Ignorable="d"
+                  Title="{Binding Title}"
+                  PrimaryButtonText="{Binding OkButtonText}"
+                  IsPrimaryButtonEnabled="{Binding IsValid}"
+                  CloseButtonText="Cancel"
+                  DefaultButton="Primary"
+                  Loaded="OnLoaded"
+                  d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <ui:ProgressRing IsActive="{Binding IsBusy}"
+                         Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        <StackPanel IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBooleanConverter}}">
+            <TextBox ui:ControlHelper.Header="User ID" Text="{Binding UserId, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 12" />
+            <TextBox ui:ControlHelper.Header="First Name" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 12" />
+            <TextBox ui:ControlHelper.Header="Last Name" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 12" />
+            <TextBox ui:ControlHelper.Header="Display Name" Text="{Binding DisplayName, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 12" />
+            <TextBox ui:ControlHelper.Header="Email Address" Text="{Binding EmailAddress, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 12" />
+            <ComboBox ui:ControlHelper.Header="User Type" ItemsSource="{Binding UserTypes}"
+                      SelectedValue="{Binding UserTypeId, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Id"
+                      HorizontalAlignment="Stretch"
+                      DisplayMemberPath="Name" Margin="0 0 0 12" />
+            <CheckBox IsChecked="{Binding IsDisabled, UpdateSourceTrigger=PropertyChanged}" 
+                      Content="Disabled"  Margin="0 0 0 12" />
+        </StackPanel>
+    </Grid>
+</ui:ContentDialog>

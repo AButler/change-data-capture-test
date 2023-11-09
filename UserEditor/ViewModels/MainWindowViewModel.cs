@@ -4,6 +4,9 @@ using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
+using ModernWpf.Controls;
+using UserEditor.Dialogs;
 using UserEditor.Models;
 using UserEditor.Repositories;
 
@@ -19,38 +22,83 @@ public partial class MainWindowViewModel : ObservableObject
     [ObservableProperty]
     private IReadOnlyList<UserModel>? _users;
 
-    public ICommand LoadCommand { get; }
+    public ICommand RefreshCommand { get; }
     public ICommand AddUserCommand { get; }
     public ICommand EditUserCommand { get; }
+    public ICommand ToggleEnableUserCommand { get; }
     public ICommand ExitCommand { get; }
 
     public MainWindowViewModel(UserRepository userRepository)
     {
         _userRepository = userRepository;
 
-        LoadCommand = new AsyncRelayCommand(Load);
-        AddUserCommand = new RelayCommand(AddUser);
-        EditUserCommand = new RelayCommand<UserModel?>(EditUser, u => u != null);
+        RefreshCommand = new AsyncRelayCommand(Refresh);
+        AddUserCommand = new AsyncRelayCommand(AddUser);
+        EditUserCommand = new AsyncRelayCommand<UserModel?>(EditUser, u => u != null);
+        ToggleEnableUserCommand = new AsyncRelayCommand<UserModel?>(
+            ToggleEnableUser,
+            u => u != null
+        );
         ExitCommand = new RelayCommand(Exit);
     }
 
-    private async Task Load()
+    private async Task Refresh()
     {
         IsBusy = true;
 
-        Users = await _userRepository.GetUsers();
+        Users = await _userRepository.GetAll();
 
         IsBusy = false;
     }
 
-    private void AddUser()
+    private async Task AddUser()
     {
-        MessageBox.Show("Add user");
+        var dialog = AddEditUserDialog.CreateAddDialog();
+        var result = await dialog.ShowAsync();
+
+        if (result == ContentDialogResult.Primary)
+        {
+            var updatedUser = dialog.ViewModel.CreateUserModel();
+            await _userRepository.Upsert(updatedUser);
+            RefreshCommand.Execute(null);
+        }
     }
 
-    private void EditUser(UserModel? user)
+    private async Task EditUser(UserModel? user)
     {
-        MessageBox.Show($"Edit user {user.DisplayName}");
+        if (user == null)
+        {
+            return;
+        }
+
+        var dialog = AddEditUserDialog.CreateEditDialog(user.Id);
+        var result = await dialog.ShowAsync();
+
+        if (result == ContentDialogResult.Primary)
+        {
+            var updatedUser = dialog.ViewModel.CreateUserModel();
+            await _userRepository.Upsert(updatedUser);
+            RefreshCommand.Execute(null);
+        }
+    }
+
+    private async Task ToggleEnableUser(UserModel? user)
+    {
+        if (user == null)
+        {
+            return;
+        }
+
+        if (user.IsDisabled)
+        {
+            await _userRepository.EnableUser(user.Id);
+        }
+        else
+        {
+            await _userRepository.DisableUser(user.Id);
+        }
+
+        RefreshCommand.Execute(null);
     }
 
     private void Exit()

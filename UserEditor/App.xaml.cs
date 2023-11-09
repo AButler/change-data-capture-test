@@ -3,6 +3,7 @@ using System.Windows;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using UserEditor.Config;
+using UserEditor.Dialogs;
 using UserEditor.Repositories;
 using UserEditor.ViewModels;
 
@@ -10,6 +11,7 @@ namespace UserEditor;
 
 public partial class App
 {
+    public static new App Current => (App)Application.Current;
     public IConfigurationRoot Configuration { get; private set; }
     public ServiceProvider Services { get; private set; }
 
@@ -40,9 +42,12 @@ public partial class App
         services.Configure<DatabaseSettings>(Configuration.GetSection("Database"));
 
         services.AddSingleton<UserRepository>();
+        services.AddSingleton<UserTypeRepository>();
 
-        services.AddSingleton<MainWindowViewModel>();
+        services.AddTransient<MainWindowViewModel>();
+        services.AddTransient<AddEditUserViewModel>();
 
         services.AddTransient<MainWindow>();
+        services.AddTransient<AddEditUserDialog>();
     }
 }

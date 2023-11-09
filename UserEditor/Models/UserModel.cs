@@ -6,5 +6,8 @@ public record UserModel(
     string FirstName,
     string LastName,
     string DisplayName,
-    string EmailAddress
+    string EmailAddress,
+    int UserTypeId,
+    string UserTypeName,
+    bool IsDisabled
 );

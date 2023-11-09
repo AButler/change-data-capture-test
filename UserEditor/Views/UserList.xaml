@@ -15,9 +15,14 @@
 
         <Border Background="{DynamicResource CommandBarBackground}"
                 CornerRadius="4">
-            <ui:CommandBar HorizontalAlignment="Left">
+            <ui:CommandBar HorizontalAlignment="Left" CornerRadius="4">
                 <ui:AppBarButton Icon="Add" Label="Add" Command="{Binding AddUserCommand}" />
                 <ui:AppBarButton Icon="Edit" Label="Edit" Command="{Binding EditUserCommand}"
+                                 CommandParameter="{Binding SelectedItem, ElementName=UsersList}" />
+                <ui:AppBarButton Icon="Delete" Label="Delete" Command="{Binding DeleteUserCommand}"
+                                 CommandParameter="{Binding SelectedItem, ElementName=UsersList}" />
+                <ui:AppBarSeparator />
+                <ui:AppBarButton Label="Enable / Disable" Command="{Binding ToggleEnableUserCommand}"
                                  CommandParameter="{Binding SelectedItem, ElementName=UsersList}" />
             </ui:CommandBar>
         </Border>
@@ -30,15 +35,33 @@
                 Margin="0 12 0 0"
                 Grid.Row="1">
             <ListView x:Name="UsersList"
-                      ItemsSource="{Binding Users}">
+                      ItemsSource="{Binding Users}"
+                      MouseDoubleClick="OnMouseDoubleClick">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" />
+                        <GridViewColumn Header="Status">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <ui:SymbolIcon Symbol="BlockContact" 
+                                                       Foreground="DarkRed" 
+                                                       ToolTip="Disabled"
+                                                       Visibility="{Binding IsDisabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                        
+                                        <ui:SymbolIcon Symbol="Contact" 
+                                                       Foreground="DarkGreen" 
+                                                       ToolTip="Enabled"
+                                                       Visibility="{Binding IsDisabled, Converter={StaticResource InvertBooleanToVisibilityConverter}}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <GridViewColumn Header="User ID" DisplayMemberBinding="{Binding UserId}" />
                         <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding FirstName}" />
                         <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding LastName}" />
                         <GridViewColumn Header="Display Name" DisplayMemberBinding="{Binding DisplayName}" />
                         <GridViewColumn Header="Email" DisplayMemberBinding="{Binding EmailAddress}" />
+                        <GridViewColumn Header="User Type" DisplayMemberBinding="{Binding UserTypeName}" />
                     </GridView>
                 </ListView.View>
             </ListView>
