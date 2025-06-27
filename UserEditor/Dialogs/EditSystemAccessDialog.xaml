@@ -10,20 +10,29 @@
                   PrimaryButtonText="Save Changes"
                   CloseButtonText="Discard"
                   DefaultButton="Primary"
+                  IsShadowEnabled="True"
                   Loaded="OnLoaded"
                   d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <StackPanel>
-            <ComboBox ui:ControlHelper.Header="Systems" ItemsSource="{Binding Systems}" DisplayMemberPath="Name" SelectedValuePath="Id" />
-            <ListView ItemsSource="{Binding SystemAccess}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="System" DisplayMemberBinding="{Binding SystemName}" />
-                        <GridViewColumn Header="Start" DisplayMemberBinding="{Binding Start}" />
-                        <GridViewColumn Header="End" DisplayMemberBinding="{Binding End}" />
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </StackPanel>
-    </Grid>
+    <StackPanel>
+        <ui:CommandBar>
+            <ui:AppBarButton Icon="Add" Label="Add" Command="{Binding AddCommand}" />
+            <ui:AppBarButton Icon="Edit" Label="Edit" Command="{Binding EditCommand}"
+                             CommandParameter="{Binding SelectedItem, ElementName=SystemAccessList}" />
+            <ui:AppBarButton Icon="Delete" Label="Delete" Command="{Binding DeleteCommand}"
+                             CommandParameter="{Binding SelectedItem, ElementName=SystemAccessList}" />
+        </ui:CommandBar>
+        <ListView ItemsSource="{Binding SystemAccess}"
+                  x:Name="SystemAccessList"
+                  Margin="0 12 0 0 "
+                  MinWidth="500"
+                  MinHeight="400">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="System" DisplayMemberBinding="{Binding SystemName}" />
+                    <GridViewColumn Header="Start" DisplayMemberBinding="{Binding Start}" />
+                    <GridViewColumn Header="End" DisplayMemberBinding="{Binding End}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </StackPanel>
 </ui:ContentDialog>

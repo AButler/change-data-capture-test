@@ -11,6 +11,7 @@
                   IsPrimaryButtonEnabled="{Binding IsValid}"
                   CloseButtonText="Cancel"
                   DefaultButton="Primary"
+                  IsShadowEnabled="True"
                   Loaded="OnLoaded"
                   d:DesignHeight="300" d:DesignWidth="300">
     <Grid>

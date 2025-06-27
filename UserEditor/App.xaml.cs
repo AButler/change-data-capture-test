@@ -49,6 +49,7 @@ public partial class App
         services.AddTransient<MainWindowViewModel>();
         services.AddTransient<AddEditUserViewModel>();
         services.AddTransient<EditSystemAccessViewModel>();
+        services.AddTransient<AddEditAccessViewModel>();
 
         services.AddTransient<MainWindow>();
         services.AddTransient<AddEditUserDialog>();

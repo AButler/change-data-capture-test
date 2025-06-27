@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ModernWpf.Controls;
+using UserEditor.Dialogs;
 using UserEditor.Models;
 using UserEditor.Repositories;
 
@@ -23,6 +25,9 @@ public partial class EditSystemAccessViewModel : ObservableObject
     private IReadOnlyList<SystemAccessModel> _systemAccess = new List<SystemAccessModel>();
 
     public ICommand LoadCommand { get; }
+    public ICommand AddCommand { get; }
+    public ICommand EditCommand { get; }
+    public ICommand DeleteCommand { get; }
 
     public EditSystemAccessViewModel(
         SystemsRepository systemsRepository,
@@ -33,6 +38,9 @@ public partial class EditSystemAccessViewModel : ObservableObject
         _systemAccessRepository = systemAccessRepository;
 
         LoadCommand = new AsyncRelayCommand(Load);
+        AddCommand = new AsyncRelayCommand(Add);
+        EditCommand = new AsyncRelayCommand<SystemAccessModel?>(Edit, a => a != null);
+        DeleteCommand = new AsyncRelayCommand<SystemAccessModel?>(Delete, a => a != null);
     }
 
     public void Initialize(int userId)
@@ -49,5 +57,32 @@ public partial class EditSystemAccessViewModel : ObservableObject
 
         Systems = await _systemsRepository.GetAll();
         SystemAccess = await _systemAccessRepository.GetForUser(_userId);
+    }
+
+    private async Task Add()
+    {
+        //TODO: add
+    }
+
+    private async Task Edit(SystemAccessModel? access)
+    {
+        if (access == null)
+        {
+            return;
+        }
+
+        // TODO edit
+    }
+
+    private async Task Delete(SystemAccessModel? access)
+    {
+        if (access == null)
+        {
+            return;
+        }
+
+        await _systemAccessRepository.Delete(access.Id);
+
+        LoadCommand.Execute(null);
     }
 }
